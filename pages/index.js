@@ -6,6 +6,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Slider from "../components/Slider";
 import Darkness from "../components/Darkness";
+import 'axios-progress-bar/dist/nprogress.css';
+import { loadProgressBar } from 'axios-progress-bar';
+
 
 export default function Home() {
   const spotify = {
@@ -18,6 +21,11 @@ export default function Home() {
     { val: 2, id: "B" },
     { val: 3, id: "C" },
   ];
+
+  useEffect(()=> {
+    loadProgressBar();
+    
+  },[])
 
   const [token, setToken] = useState([]);
   const [genre, setGenre] = useState({
@@ -33,6 +41,9 @@ export default function Home() {
   //
   const submit = (e) => {
     e.preventDefault();
+    if(genre.selectedGenre.length < 1) {
+      return alert('You must at least add one genre!')
+    }
     axios(
       `https://api.spotify.com/v1/recommendations?limit=4&market=US&seed_genres=${genre.selectedGenre.join(
         "%2C"
@@ -228,13 +239,6 @@ export default function Home() {
       max: 1,
     },
     {
-      sn: "popularitySlider",
-      name: popularitySlider,
-      f: setPopularitySlider,
-      min: 0,
-      max: 100,
-    },
-    {
       sn: "tempoSlider",
       name: tempoSlider,
       f: setTempoSlider,
@@ -264,8 +268,11 @@ export default function Home() {
     >
      <Box>
       <Box backgroundColor="yellow" sx={{
-        fontWeight: 800
-      }} color="black" mb={10} pr={2}>
+        fontWeight: 800,
+        textAlign: 'center',
+        margin: '0 auto',
+        py: 2,
+      }} color="black" mb={10}>
       spotify.random
       </Box>
       <Box onClick={() => window.location.assign('https://medium.com/creative-labs/spring-2020-projects-3401d04e238c')} backgroundColor="lightblue" color="black" px={1}>
@@ -316,7 +323,8 @@ export default function Home() {
        <Box p={'2px'} sx={{
          borderRadius: 5,
          background: 'linear-gradient(180deg,darkgray,gray)',
-         m: 4
+         m: 4,
+         cursor: "pointer"
        }} onClick={() => randomize()}>
           Randomize
         </Box>
@@ -324,7 +332,8 @@ export default function Home() {
         <Box p={'2px'} onClick={(e) => submit(e)} sx={{
          borderRadius: 5,
          background: 'linear-gradient(180deg,darkgray,gray)',
-         m: 4
+         m: 4,
+         cursor: 'pointer'
          
        }} type="submit">
           Submit
@@ -336,17 +345,18 @@ export default function Home() {
         backgroundColor="#3d3fe340"
         sx={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "center",
           alignItems: "center",
-          textAlign: "center",
+          textAlign: "left",
+          p: 10,
           color: "white",
           fontWeight: 800,
           borderRadius: 13,
           fontSize: tracks.track_art.length < 1 ? "2rem" : "0.9rem",
         }}
       >
-        {tracks.track_art.length < 1 &&
-          " Please Fill and Submit Before Viewing"}
+        {tracks.track_art.length < 3 &&
+          "Hello! Welcome to Spotify Random. Fill out the stuff on the left and press submit."}
         <Box width={300}>
           <Box className={styles.images}  onClick={() => window.location.assign(tracks.track_preview.one)}  width={300} mb={10}>
             {
@@ -372,7 +382,7 @@ export default function Home() {
                 </Box>
               </Darkness>
             }
-            <Box as="img" width={1} src={tracks.track_art.one} />
+            <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.one} />
           </Box>
 
           <Box className={styles.images2}  onClick={() => window.location.assign(tracks.track_preview.two)}  width={300} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
@@ -399,7 +409,7 @@ export default function Home() {
                 </Box>
               </Darkness>
             }
-            <Box as="img" width={1} src={tracks.track_art.two} />
+            <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.two} />
           </Box>
         </Box>
 
@@ -428,7 +438,7 @@ export default function Home() {
                 </Box>
               </Darkness>
             }
-            <Box as="img" width={1} src={tracks.track_art.three} />
+            <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.three} />
           </Box>
 
           <Box className={styles.images4} onClick={() => window.location.assign(tracks.track_preview.four)}  width={300}>
@@ -440,7 +450,8 @@ export default function Home() {
                     justifyContent: "center",
                     padding: 20,
                     flexDirection: "column",
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    
                   }}
                 >
                   <Box
@@ -455,7 +466,7 @@ export default function Home() {
                 </Box>
               </Darkness>
             }
-            <Box as="img" width={1} src={tracks.track_art.four} />
+            <Box as="img" sx={{borderRadius: 10}} width={1} src={tracks.track_art.four} />
           </Box>
         </Box>
       </Box>

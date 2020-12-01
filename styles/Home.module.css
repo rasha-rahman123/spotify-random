@@ -9,14 +9,17 @@
 
 .images,.images2,.images3,.images4 {
   animation-name: floating; 
-  animation-duration: 3s; 
+  animation-duration: 6s; 
   animation-iteration-count: infinite; 
   animation-timing-function: ease-in-out; 
-}
+  border-radius: 10px;
   
+}
+
 
 @keyframes floating {
   0% {transform: translate(0px,0px);}
-  50% {transform: translate(0px,-15px);}
+  25% {transform: translate(0px,-15px);}
+  75% {transform: translate(0px,15px);}
   100% {transform: translate(0px,0px);}
 }   

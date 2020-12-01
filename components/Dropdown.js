@@ -15,16 +15,16 @@ export const Dropdown = (props) => {
         textAlign: 'center',
         marginBottom: 10
     }}>
-        <Box>
+       { props.genre.selectedGenre.length < 3 &&<Box>
            Choose Genres Here:
-        </Box>
-      <Box as="select" value={props.genre.selectedGenre} onChange={(e) => dropDownChange(e)}>
+        </Box>}
+     {props.genre.selectedGenre.length < 3 && <Box as="select"  onChange={(e) => dropDownChange(e)}>
         {props.options.map((x, i) => (
           <Box key={i} value={x.id} as="option">{x}</Box>
         ))}
-      </Box>
+      </Box>}
             <Box>
-            Selected Genres (click 2 remove):
+            Selected Genres (click to remove):
             </Box>
      <Box sx={{color: 'gray'}} as="ol">
      {props.genre.selectedGenre.map((x,i) => <Box onClick={() => props.removed(i)} as="li" key={i} >{x}</Box>)}
