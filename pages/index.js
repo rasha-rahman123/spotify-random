@@ -143,7 +143,7 @@ export default function Home() {
 
   const genreChanged = (val) => {
     let j = [...genre.selectedGenre];
-    j.push(val);
+    j.push(genre.listOfGenresFromAPI[val]);
     setGenre({
       selectedGenre: j,
       listOfGenresFromAPI: genre.listOfGenresFromAPI,
@@ -152,7 +152,8 @@ export default function Home() {
 
   const genreRemoved = (val) => {
     let j = [...genre.selectedGenre];
-    j.splice(val, 1);
+    let k = j.indexOf(genre.listOfGenresFromAPI[val])
+    j.splice(k, 1);
     setGenre({
       selectedGenre: j,
       listOfGenresFromAPI: genre.listOfGenresFromAPI,
@@ -259,14 +260,17 @@ export default function Home() {
       sx={{
         display: "flex",
         p: 20,
-        pr: 0,
+        pr: mobile ? 20 : 0,
         minHeight: "100vh",
         justifyContent: "center",
         alignItems: 'center',
-        flexDirection: typeof window !== 'undefined' && window.innerWidth < 700 ? 'column' : 'row'
+        textAlign: 'center',
+        flexDirection: mobile ? 'column' : 'column'
       }}
     >
-     <Box>
+     <Box display="grid" sx={{
+       gridTemplateColumns: '33% 33% 33%'
+     }}>
       <Box backgroundColor="yellow" sx={{
         fontWeight: 800,
         textAlign: 'center',
@@ -301,21 +305,29 @@ export default function Home() {
           changed={genreChanged}
           removed={genreRemoved}
         />
-        {sliders &&
-          sliders.map((x, i) => (
-            <Box key={i}>
-              <Box as="label">{x.sn.substr(0, x.sn.length - 6).toUpperCase()}</Box>
-              <Box as="pre">
-                {x.name === tempoSlider ? x.name / 100 + " BPM" : x.name / 100}
-              </Box>
-              <Slider
-                min={x.min}
-                max={x.max * 100}
-                value={x.name}
-                change={x.f}
-              />
-            </Box>
-          ))}
+        <Box sx={{
+         display: 'grid',
+         width: '80vw',
+         gridTemplateColumns: '25% 25% 25% 25%',
+         columnGap:10,
+         rowGap: 15,
+       
+     }}>{sliders &&
+      sliders.map((x, i) => (
+        <Box key={i}>
+          <Box as="label">{x.sn.substr(0, x.sn.length - 6).toUpperCase()}</Box>
+          <Box as="pre">
+            {x.name === tempoSlider ? x.name / 100 + " BPM" : x.name / 100}
+          </Box>
+          <Slider
+            min={x.min}
+            max={x.max * 100}
+            value={x.name}
+            change={x.f}
+          />
+        </Box>
+      ))}</Box>
+        
        <Box sx={{
          display: 'flex',
          flexDirection: 'row'
@@ -353,12 +365,13 @@ export default function Home() {
           fontWeight: 800,
           borderRadius: 13,
           fontSize: tracks.track_art.length < 1 ? "2rem" : "0.9rem",
+          flexDirection: mobile ? 'column' : 'row'
         }}
       >
         {tracks.track_art.length < 3 &&
           "Hello! Welcome to Spotify Random. Fill out the stuff on the left and press submit."}
-        <Box width={300}>
-          <Box className={styles.images}  onClick={() => window.location.assign(tracks.track_preview.one)}  width={300} mb={10}>
+        <Box width={'25vw'}>
+          <Box className={styles.images}  onClick={() => window.location.assign(tracks.track_preview.one)}  width={'25vw'} mb={10}>
             {
               <Darkness>
                 <Box
@@ -385,7 +398,7 @@ export default function Home() {
             <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.one} />
           </Box>
 
-          <Box className={styles.images2}  onClick={() => window.location.assign(tracks.track_preview.two)}  width={300} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
+          <Box className={styles.images2}  onClick={() => window.location.assign(tracks.track_preview.two)}  width={'25vw'} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
           {
               <Darkness>
                 <Box
@@ -413,8 +426,8 @@ export default function Home() {
           </Box>
         </Box>
 
-        <Box width={300} >
-          <Box className={styles.images3} onClick={() => window.location.assign(tracks.track_preview.three)} width={300} mb={10} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
+        <Box width={'25vw'} >
+          <Box className={styles.images3} onClick={() => window.location.assign(tracks.track_preview.three)} width={'25vw'} mb={10} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
           {
               <Darkness>
                 <Box
@@ -441,7 +454,7 @@ export default function Home() {
             <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.three} />
           </Box>
 
-          <Box className={styles.images4} onClick={() => window.location.assign(tracks.track_preview.four)}  width={300}>
+          <Box className={styles.images4} onClick={() => window.location.assign(tracks.track_preview.four)}  width={'25vw'}>
           {
               <Darkness>
                 <Box

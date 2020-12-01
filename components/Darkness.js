@@ -2,7 +2,7 @@ import { Box } from "rebass"
 
 export const Darkness = ({children}) => {
     return (
-        <Box sx={{position: 'absolute', backgroundColor: "black", opacity: 0, width: '300px', height: '300px', zIndex: 3,   borderRadius: 10, cursor:'pointer', ":hover": {
+        <Box sx={{position: 'absolute', backgroundColor: "black", opacity: 0, width: '25vw', height: '25vw', zIndex: 3,   borderRadius: 10, cursor:'pointer', ":hover": {
             opacity: 0.8
           }}} > 
           
