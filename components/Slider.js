@@ -10,7 +10,7 @@ export const Slider = (props) => {
 
   return (
     <Box>
-      <Box as="input" type="range" min={props.min} max={props.max} value={props.value} onChange={(e) => props.change(e.target.value)} />
+      <Box as="input" type="range" backgroundColor="black" min={props.min} max={props.max} value={props.value} onChange={(e) => props.change(e.target.value)} />
     </Box>
   );
 };

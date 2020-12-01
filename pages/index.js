@@ -6,9 +6,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Slider from "../components/Slider";
 import Darkness from "../components/Darkness";
-import 'axios-progress-bar/dist/nprogress.css';
-import { loadProgressBar } from 'axios-progress-bar';
-
+import "axios-progress-bar/dist/nprogress.css";
+import { loadProgressBar } from "axios-progress-bar";
 
 export default function Home() {
   const spotify = {
@@ -22,10 +21,9 @@ export default function Home() {
     { val: 3, id: "C" },
   ];
 
-  useEffect(()=> {
+  useEffect(() => {
     loadProgressBar();
-    
-  },[])
+  }, []);
 
   const [token, setToken] = useState([]);
   const [genre, setGenre] = useState({
@@ -41,28 +39,20 @@ export default function Home() {
   //
   const submit = (e) => {
     e.preventDefault();
-    if(genre.selectedGenre.length < 1) {
-      return alert('You must at least add one genre!')
+    if (genre.selectedGenre.length < 1) {
+      return alert("You must at least add one genre!");
     }
     axios(
       `https://api.spotify.com/v1/recommendations?limit=4&market=US&seed_genres=${genre.selectedGenre.join(
         "%2C"
       )}
       &target_acousticness=${acousticSlider / 100}
-      &target_danceability=${
-        danceabilitySlider / 100
-      }
+      &target_danceability=${danceabilitySlider / 100}
       &target_energy=${energySlider / 100}
-      &target_instrumentalness=${
-        instrumentalSlider / 100
-      }
+      &target_instrumentalness=${instrumentalSlider / 100}
       &target_liveness=${livenessSlider / 100}
-      &target_loudness=${
-        loudnessSlider / 100
-      }
-      &target_tempo=${
-        tempoSlider / 100
-      }
+      &target_loudness=${loudnessSlider / 100}
+      &target_tempo=${tempoSlider / 100}
       &target_valence=${valenceSlider / 100}`,
       {
         method: "GET",
@@ -102,15 +92,15 @@ export default function Home() {
   };
 
   useEffect(() => {
-    document.onresize = resizeCheck
-  })
+    document.onresize = resizeCheck;
+  });
 
   const [mobile, setMobile] = useState();
 
   const resizeCheck = (e) => {
-    e = e || window.event
-      console.log(e)
-  }
+    e = e || window.event;
+    console.log(e);
+  };
 
   useEffect(() => {
     axios("https://accounts.spotify.com/api/token", {
@@ -152,7 +142,7 @@ export default function Home() {
 
   const genreRemoved = (val) => {
     let j = [...genre.selectedGenre];
-    let k = j.indexOf(genre.listOfGenresFromAPI[val])
+    let k = j.indexOf(genre.listOfGenresFromAPI[val]);
     j.splice(k, 1);
     setGenre({
       selectedGenre: j,
@@ -171,7 +161,7 @@ export default function Home() {
     setTempoSlider(Math.floor(Math.random() * 20000));
     setValenceSlider(Math.floor(Math.random() * 100));
     let k = new Array();
-    let j = [...genre.listOfGenresFromAPI]
+    let j = [...genre.listOfGenresFromAPI];
     let i = 0;
     while (i < 3) {
       var index = Math.floor(Math.random() * j.length - 1);
@@ -181,10 +171,9 @@ export default function Home() {
     }
     setGenre({
       selectedGenre: k,
-      listOfGenresFromAPI: genre.listOfGenresFromAPI
-    })
+      listOfGenresFromAPI: genre.listOfGenresFromAPI,
+    });
   }
-
 
   const [acousticSlider, setAcousticSlider] = useState(50);
   const [danceabilitySlider, setDanceabilitySlider] = useState(50);
@@ -260,32 +249,54 @@ export default function Home() {
       sx={{
         display: "flex",
         p: 20,
-        pr: mobile ? 20 : 0,
         minHeight: "100vh",
         justifyContent: "center",
-        alignItems: 'center',
-        textAlign: 'center',
-        flexDirection: mobile ? 'column' : 'column'
+        alignItems: "center",
+        textAlign: "center",
+        flexDirection: mobile ? "column" : "column",
       }}
     >
-     <Box display="grid" sx={{
-       gridTemplateColumns: '33% 33% 33%'
-     }}>
-      <Box backgroundColor="yellow" sx={{
-        fontWeight: 800,
-        textAlign: 'center',
-        margin: '0 auto',
-        py: 2,
-      }} color="black" mb={10}>
-      spotify.random
+      <Box
+        display="grid"
+        sx={{
+          gridTemplateColumns: "33% 33% 33%",
+        }}
+      >
+        <Box
+          backgroundColor="yellow"
+          sx={{
+            fontWeight: 800,
+            textAlign: "center",
+            margin: "0 auto",
+            py: 2,
+          }}
+          color="black"
+          mb={10}
+        >
+          spotify.random
+        </Box>
+        <Box
+          onClick={() =>
+            window.location.assign(
+              "https://medium.com/creative-labs/spring-2020-projects-3401d04e238c"
+            )
+          }
+          backgroundColor="lightblue"
+          color="black"
+          px={1}
+        >
+          creative labs ucla
+        </Box>
+        <Box
+          onClick={() => window.location.assign("https://rasha.world")}
+          backgroundColor="limegreen"
+          color="black"
+          mt={10}
+          px={1}
+        >
+          made by rasha
+        </Box>
       </Box>
-      <Box onClick={() => window.location.assign('https://medium.com/creative-labs/spring-2020-projects-3401d04e238c')} backgroundColor="lightblue" color="black" px={1}>
-      creative labs ucla
-      </Box>
-      <Box onClick={() => window.location.assign('https://rasha.world')} backgroundColor="limegreen" color="black" mt={10} px={1}>
-     made by rasha
-      </Box>
-     </Box>
       <Box
         as="form"
         sx={{
@@ -305,184 +316,251 @@ export default function Home() {
           changed={genreChanged}
           removed={genreRemoved}
         />
-        <Box sx={{
-         display: 'grid',
-         width: '80vw',
-         gridTemplateColumns: '25% 25% 25% 25%',
-         columnGap:10,
-         rowGap: 15,
-       
-     }}>{sliders &&
-      sliders.map((x, i) => (
-        <Box key={i}>
-          <Box as="label">{x.sn.substr(0, x.sn.length - 6).toUpperCase()}</Box>
-          <Box as="pre">
-            {x.name === tempoSlider ? x.name / 100 + " BPM" : x.name / 100}
-          </Box>
-          <Slider
-            min={x.min}
-            max={x.max * 100}
-            value={x.name}
-            change={x.f}
-          />
-        </Box>
-      ))}</Box>
-        
-       <Box sx={{
-         display: 'flex',
-         flexDirection: 'row'
-       }}>
-       <Box p={'2px'} sx={{
-         borderRadius: 5,
-         background: 'linear-gradient(180deg,darkgray,gray)',
-         m: 4,
-         cursor: "pointer"
-       }} onClick={() => randomize()}>
-          Randomize
-        </Box>
-      
-        <Box p={'2px'} onClick={(e) => submit(e)} sx={{
-         borderRadius: 5,
-         background: 'linear-gradient(180deg,darkgray,gray)',
-         m: 4,
-         cursor: 'pointer'
-         
-       }} type="submit">
-          Submit
-        </Box>
-       </Box>
-      </Box>
-      <Box
-        width="70%"
-        backgroundColor="#3d3fe340"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "left",
-          p: 10,
-          color: "white",
-          fontWeight: 800,
-          borderRadius: 13,
-          fontSize: tracks.track_art.length < 1 ? "2rem" : "0.9rem",
-          flexDirection: mobile ? 'column' : 'row'
-        }}
-      >
-        {tracks.track_art.length < 3 &&
-          "Hello! Welcome to Spotify Random. Fill out the stuff on the left and press submit."}
-        <Box width={'25vw'}>
-          <Box className={styles.images}  onClick={() => window.location.assign(tracks.track_preview.one)}  width={'25vw'} mb={10}>
-            {
-              <Darkness>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    padding: 20,
-                    flexDirection: "column",
-                    cursor: 'pointer'
-                  }}
-                >
-                  <Box
-                    as="h2"
-                    sx={{
-                      borderBottom: "1px solid white",
-                    }}
-                  >
-                    {tracks.track_names.one}
-                  </Box>
-                  <Box as="h4">by: {tracks.track_artists.one}</Box>
+        <Box
+          sx={{
+            display: "grid",
+            width: "80vw",
+            gridTemplateColumns: ["50% 50%","50% 50%","25% 25% 25% 25%"],
+            columnGap: 10,
+            rowGap: 15,
+          }}
+        >
+          {sliders &&
+            sliders.map((x, i) => (
+              <Box key={i}>
+                <Box as="label">
+                  {x.sn.substr(0, x.sn.length - 6).toUpperCase()}
                 </Box>
-              </Darkness>
-            }
-            <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.one} />
-          </Box>
-
-          <Box className={styles.images2}  onClick={() => window.location.assign(tracks.track_preview.two)}  width={'25vw'} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
-          {
-              <Darkness>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    padding: 20,
-                    flexDirection: "column",
-                    cursor: 'pointer'
-                  }}
-                >
-                  <Box
-                    as="h2"
-                    sx={{
-                      borderBottom: "1px solid white",
-                    }}
-                  >
-                    {tracks.track_names.two}
-                  </Box>
-                  <Box as="h4">by: {tracks.track_artists.two}</Box>
+                <Box as="pre">
+                  {x.name === tempoSlider
+                    ? x.name / 100 + " BPM"
+                    : x.name / 100}
                 </Box>
-              </Darkness>
-            }
-            <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.two} />
-          </Box>
+                <Slider
+                  min={x.min}
+                  max={x.max * 100}
+                  value={x.name}
+                  change={x.f}
+                />
+              </Box>
+            ))}
         </Box>
 
-        <Box width={'25vw'} >
-          <Box className={styles.images3} onClick={() => window.location.assign(tracks.track_preview.three)} width={'25vw'} mb={10} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
-          {
-              <Darkness>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    padding: 20,
-                    flexDirection: "column",
-                    cursor: 'pointer'
-                  }}
-                >
-                  <Box
-                    as="h2"
-                    sx={{
-                      borderBottom: "1px solid white",
-                    }}
-                  >
-                    {tracks.track_names.three}
-                  </Box>
-                  <Box as="h4">by: {tracks.track_artists.three}</Box>
-                </Box>
-              </Darkness>
-            }
-            <Box as="img" sx={{borderRadius: 10}}  width={1} src={tracks.track_art.three} />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <Box
+            p={"8px"}
+            sx={{
+              borderRadius: 5,
+              background: "linear-gradient(180deg,limegreen,lime)",
+              color: "black",
+              m: 4,
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+            onClick={() => randomize()}
+          >
+            Randomize
           </Box>
 
-          <Box className={styles.images4} onClick={() => window.location.assign(tracks.track_preview.four)}  width={'25vw'}>
-          {
-              <Darkness>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    padding: 20,
-                    flexDirection: "column",
-                    cursor: 'pointer',
-                    
-                  }}
-                >
-                  <Box
-                    as="h2"
-                    sx={{
-                      borderBottom: "1px solid white",
-                    }}
-                  >
-                    {tracks.track_names.four}
-                  </Box>
-                  <Box as="h4">by: {tracks.track_artists.four}</Box>
-                </Box>
-              </Darkness>
-            }
-            <Box as="img" sx={{borderRadius: 10}} width={1} src={tracks.track_art.four} />
+          <Box
+            p={"8px"}
+            onClick={(e) => submit(e)}
+            sx={{
+              borderRadius: 5,
+              background: "linear-gradient(180deg,limegreen,lime)",
+              color: "black",
+              m: 4,
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+            type="submit"
+          >
+            Submit
           </Box>
         </Box>
       </Box>
+      {
+        <Box
+          backgroundColor="#3d3fe340"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "left",
+            p: 10,
+            color: "white",
+            fontWeight: 800,
+            borderRadius: 13,
+            fontSize: tracks.track_art.length < 1 ? "2rem" : "0.9rem",
+            flexDirection: mobile ? "column" : "row",
+          }}
+        >
+          {tracks.track_art.length < 3 &&
+            "Hello! Welcome to Spotify Random. Fill out the stuff on the left and press submit."}
+          <Box width="100%" display={tracks.track_art.length < 3 ? 'none' : 'initial'}>
+            <Box>
+              <Box
+                className={styles.images}
+                onClick={() => window.location.assign(tracks.track_preview.one)}
+                width={"50vw"}
+                mb={10}
+              >
+                {
+                  <Darkness>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: 20,
+                        flexDirection: "column",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Box
+                        as="h2"
+                        sx={{
+                          borderBottom: "1px solid white",
+                        }}
+                      >
+                        {tracks.track_names.one}
+                      </Box>
+                      <Box as="h4">by: {tracks.track_artists.one}</Box>
+                    </Box>
+                  </Darkness>
+                }
+                <Box
+                  as="img"
+                  sx={{ borderRadius: 10 }}
+                  width={1}
+                  src={tracks.track_art.one}
+                />
+              </Box>
+
+              <Box
+                className={styles.images2}
+                onClick={() => window.location.assign(tracks.track_preview.two)}
+                width={"50vw"}
+                sx={{ transform: "translateX(-3vw) translateY(3vw)" }}
+              >
+                {
+                  <Darkness>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: 20,
+                        flexDirection: "column",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Box
+                        as="h2"
+                        sx={{
+                          borderBottom: "1px solid white",
+                        }}
+                      >
+                        {tracks.track_names.two}
+                      </Box>
+                      <Box as="h4">by: {tracks.track_artists.two}</Box>
+                    </Box>
+                  </Darkness>
+                }
+                <Box
+                  as="img"
+                  sx={{ borderRadius: 10 }}
+                  width={1}
+                  src={tracks.track_art.two}
+                />
+              </Box>
+            </Box>
+
+            <Box width={"50vw"}>
+              <Box
+                className={styles.images3}
+                onClick={() =>
+                  window.location.assign(tracks.track_preview.three)
+                }
+                width={"50vw"}
+                mb={10}
+                sx={{ transform: "translateX(-3vw) translateY(3vw)" }}
+              >
+                {
+                  <Darkness>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: 20,
+                        flexDirection: "column",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Box
+                        as="h2"
+                        sx={{
+                          borderBottom: "1px solid white",
+                        }}
+                      >
+                        {tracks.track_names.three}
+                      </Box>
+                      <Box as="h4">by: {tracks.track_artists.three}</Box>
+                    </Box>
+                  </Darkness>
+                }
+                <Box
+                  as="img"
+                  sx={{ borderRadius: 10 }}
+                  width={1}
+                  src={tracks.track_art.three}
+                />
+              </Box>
+
+              <Box
+                className={styles.images4}
+                onClick={() =>
+                  window.location.assign(tracks.track_preview.four)
+                }
+                width={"50vw"}
+              >
+                {
+                  <Darkness>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: 20,
+                        flexDirection: "column",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Box
+                        as="h2"
+                        sx={{
+                          borderBottom: "1px solid white",
+                        }}
+                      >
+                        {tracks.track_names.four}
+                      </Box>
+                      <Box as="h4">by: {tracks.track_artists.four}</Box>
+                    </Box>
+                  </Darkness>
+                }
+                <Box
+                  as="img"
+                  sx={{ borderRadius: 10 }}
+                  width={1}
+                  src={tracks.track_art.four}
+                />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      }
     </Box>
   );
 }
