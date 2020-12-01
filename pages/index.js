@@ -36,15 +36,23 @@ export default function Home() {
     axios(
       `https://api.spotify.com/v1/recommendations?limit=4&market=US&seed_genres=${genre.selectedGenre.join(
         "%2C"
-      )}&target_acousticness=${acousticSlider / 100}&target_danceability=${
+      )}
+      &target_acousticness=${acousticSlider / 100}
+      &target_danceability=${
         danceabilitySlider / 100
-      }&target_energy=${energySlider / 100}&target_instrumentalness=${
+      }
+      &target_energy=${energySlider / 100}
+      &target_instrumentalness=${
         instrumentalSlider / 100
-      }&target_liveness=${livenessSlider / 100}&target_loudness=${
+      }
+      &target_liveness=${livenessSlider / 100}
+      &target_loudness=${
         loudnessSlider / 100
-      }&target_popularity=${popularitySlider / 100}&target_tempo=${
+      }
+      &target_tempo=${
         tempoSlider / 100
-      }&target_valence=${valenceSlider / 100}`,
+      }
+      &target_valence=${valenceSlider / 100}`,
       {
         method: "GET",
         headers: {
@@ -139,6 +147,32 @@ export default function Home() {
       listOfGenresFromAPI: genre.listOfGenresFromAPI,
     });
   };
+
+  function randomize() {
+    setAcousticSlider(Math.floor(Math.random() * 100));
+    setDanceabilitySlider(Math.floor(Math.random() * 100));
+    setEnergySlider(Math.floor(Math.random() * 100));
+    setInstrumentalSlider(Math.floor(Math.random() * 100));
+    setLivenessSlider(Math.floor(Math.random() * 100));
+    setLoudnessSlider(Math.floor(Math.random() * 100));
+    setPopularitySlider(Math.floor(Math.random() * 5000));
+    setTempoSlider(Math.floor(Math.random() * 20000));
+    setValenceSlider(Math.floor(Math.random() * 100));
+    let k = new Array();
+    let j = [...genre.listOfGenresFromAPI]
+    let i = 0;
+    while (i < 3) {
+      var index = Math.floor(Math.random() * j.length - 1);
+      k.push(j[index]);
+      j.splice(index, 1);
+      i++;
+    }
+    setGenre({
+      selectedGenre: k,
+      listOfGenresFromAPI: genre.listOfGenresFromAPI
+    })
+  }
+
 
   const [acousticSlider, setAcousticSlider] = useState(50);
   const [danceabilitySlider, setDanceabilitySlider] = useState(50);
@@ -275,9 +309,27 @@ export default function Home() {
               />
             </Box>
           ))}
-        <Box as="button" type="submit">
-          Search
+       <Box sx={{
+         display: 'flex',
+         flexDirection: 'row'
+       }}>
+       <Box p={'2px'} sx={{
+         borderRadius: 5,
+         background: 'linear-gradient(180deg,darkgray,gray)',
+         m: 4
+       }} onClick={() => randomize()}>
+          Randomize
         </Box>
+      
+        <Box p={'2px'} onClick={(e) => submit(e)} sx={{
+         borderRadius: 5,
+         background: 'linear-gradient(180deg,darkgray,gray)',
+         m: 4
+         
+       }} type="submit">
+          Submit
+        </Box>
+       </Box>
       </Box>
       <Box
         width="70%"
@@ -296,7 +348,7 @@ export default function Home() {
         {tracks.track_art.length < 1 &&
           " Please Fill and Submit Before Viewing"}
         <Box width={300}>
-          <Box  onClick={() => window.location.assign(tracks.track_preview.one)}  width={300} mb={10}>
+          <Box className={styles.images}  onClick={() => window.location.assign(tracks.track_preview.one)}  width={300} mb={10}>
             {
               <Darkness>
                 <Box
@@ -305,6 +357,7 @@ export default function Home() {
                     justifyContent: "center",
                     padding: 20,
                     flexDirection: "column",
+                    cursor: 'pointer'
                   }}
                 >
                   <Box
@@ -322,7 +375,7 @@ export default function Home() {
             <Box as="img" width={1} src={tracks.track_art.one} />
           </Box>
 
-          <Box  onClick={() => window.location.assign(tracks.track_preview.two)}  width={300} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
+          <Box className={styles.images2}  onClick={() => window.location.assign(tracks.track_preview.two)}  width={300} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
           {
               <Darkness>
                 <Box
@@ -331,6 +384,7 @@ export default function Home() {
                     justifyContent: "center",
                     padding: 20,
                     flexDirection: "column",
+                    cursor: 'pointer'
                   }}
                 >
                   <Box
@@ -350,7 +404,7 @@ export default function Home() {
         </Box>
 
         <Box width={300} >
-          <Box onClick={() => window.location.assign(tracks.track_preview.three)} width={300} mb={10} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
+          <Box className={styles.images3} onClick={() => window.location.assign(tracks.track_preview.three)} width={300} mb={10} sx={{transform: 'translateX(-3vw) translateY(3vw)'}}>
           {
               <Darkness>
                 <Box
@@ -359,6 +413,7 @@ export default function Home() {
                     justifyContent: "center",
                     padding: 20,
                     flexDirection: "column",
+                    cursor: 'pointer'
                   }}
                 >
                   <Box
@@ -376,7 +431,7 @@ export default function Home() {
             <Box as="img" width={1} src={tracks.track_art.three} />
           </Box>
 
-          <Box  onClick={() => window.location.assign(tracks.track_preview.four)}  width={300}>
+          <Box className={styles.images4} onClick={() => window.location.assign(tracks.track_preview.four)}  width={300}>
           {
               <Darkness>
                 <Box
@@ -385,6 +440,7 @@ export default function Home() {
                     justifyContent: "center",
                     padding: 20,
                     flexDirection: "column",
+                    cursor: 'pointer'
                   }}
                 >
                   <Box
