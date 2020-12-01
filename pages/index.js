@@ -8,6 +8,8 @@ import Slider from "../components/Slider";
 import Darkness from "../components/Darkness";
 import "axios-progress-bar/dist/nprogress.css";
 import { loadProgressBar } from "axios-progress-bar";
+import tooltip from 'tooltip';
+
 
 export default function Home() {
   const spotify = {
@@ -23,6 +25,7 @@ export default function Home() {
 
   useEffect(() => {
     loadProgressBar();
+    tooltip();
   }, []);
 
   const [token, setToken] = useState([]);
@@ -178,8 +181,8 @@ export default function Home() {
   const [acousticSlider, setAcousticSlider] = useState(50);
   const [danceabilitySlider, setDanceabilitySlider] = useState(50);
   const [energySlider, setEnergySlider] = useState(50);
-  const [instrumentalSlider, setInstrumentalSlider] = useState(50);
-  const [livenessSlider, setLivenessSlider] = useState(50);
+  const [instrumentalSlider, setInstrumentalSlider] = useState(35);
+  const [livenessSlider, setLivenessSlider] = useState(0);
   const [loudnessSlider, setLoudnessSlider] = useState(50);
   const [popularitySlider, setPopularitySlider] = useState(5000);
   const [tempoSlider, setTempoSlider] = useState(10000);
@@ -328,13 +331,13 @@ export default function Home() {
           {sliders &&
             sliders.map((x, i) => (
               <Box key={i}>
-                <Box as="label">
+                <Box data-tooltip="hello world" as="label">
                   {x.sn.substr(0, x.sn.length - 6).toUpperCase()}
                 </Box>
                 <Box as="pre">
                   {x.name === tempoSlider
                     ? x.name / 100 + " BPM"
-                    : x.name / 100}
+                    : x.name + "%"}
                 </Box>
                 <Slider
                   min={x.min}

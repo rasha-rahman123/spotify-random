@@ -14,7 +14,9 @@
     "next": "10.0.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-tooltip": "^4.2.11",
     "rebass": "^4.0.7",
-    "theme-ui": "^0.3.4"
+    "theme-ui": "^0.3.4",
+    "tooltip": "^1.6.1"
   }
 }

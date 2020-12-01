@@ -14,7 +14,7 @@ export const Dropdown = (props) => {
   return (
     <Box sx={{
         textAlign: 'center',
-        marginBottom: 10
+        marginBottom: 30
     }}>
        { <Box>
            Choose Genres Here:
@@ -22,7 +22,7 @@ export const Dropdown = (props) => {
      {<Box sx={{
          display: 'grid',
          width: '80vw',
-         gridTemplateColumns: '20% 20% 20% 20% 20%',
+         gridTemplateColumns: ['33% 33% 33%','25% 25% 25% 25%','20% 20% 20% 20% 20%'],
          columnGap:10,
          rowGap: 15
      }}>
