@@ -13,26 +13,35 @@ export const Dropdown = (props) => {
 
   return (
     <Box sx={{
-        textAlign: 'center',
+      width: '80vw',
         my: 30, 
         mx: 'auto',
     }}>
-    <Box sx={{textAlign: "center", fontSize: '3rem', color: 'limegreen', fontWeight: 800, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Box>
+    <Box sx={{fontSize: ['1.5rem','2rem','3rem'], color: 'limegreen', fontWeight: 800, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Box sx={{
+            textAlign: 'left'
+          }}>
             Genre Selection
           </Box> <Box sx={{
             fontWeight: 400,
-            fontSize: '1rem'
+            width: ['200px','200px','500px'],
+            fontSize: '0.8rem',
+            textAlign: 'right',
+            cursor: "pointer"
           }}>
            {props.genre.selectedGenre.length > 0 && <div onClick={() => props.setGenre({
              selectedGenre: [],
              listOfGenresFromAPI: props.genre.listOfGenresFromAPI
-           })}> Clear Genres</div>}
+           })}> Clear Genres <br /></div>}
+            <div sx={{
+             color: '#FFFFFF60',
+             cursor: "none"
+           }}>{'( ' + props.genre.selectedGenre.map(x => x + " ") + ')'}</div>
           </Box>
         </Box>
      {<Box sx={{
          display: 'grid',
-         width: '80vw',
+
          gridTemplateColumns: ['33% 33% 33%','25% 25% 25% 25%','20% 20% 20% 20% 20%'],
          columnGap:10,
          rowGap: 15,
@@ -43,6 +52,7 @@ export const Dropdown = (props) => {
               background: 'darkpurple',
               color: props.genre.selectedGenre.length < 3 ? props.genre.selectedGenre.includes(x) ? 'pink' : 'limegreen' : props.genre.selectedGenre.includes(x) ? 'pink' : 'gray',
               fontWeight: 600,
+              fontSize: ['0.8rem','0.8rem','1rem'],
               opacity: props.genre.selectedGenre.includes(x) && props.genre.selectedGenre.length > 2 ? 1 : props.genre.selectedGenre.length > 2 ? 0.3 : 1,
               border: props.genre.selectedGenre.includes(x) ? '3px solid pink' : '3px solid green',
               transition: 'all 300ms ease-in-out',

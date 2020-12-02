@@ -21,6 +21,39 @@ export default function Home() {
     { val: 3, id: "C" },
   ];
 
+  const [isPlaying, setIsPlaying] = useState({
+    bool: Boolean,
+    tn: String
+  })
+
+  const playTrack = async (i) => {
+
+    if ( isPlaying.tn === tracks.track_names[i] && isPlaying.bool) {
+      stopAll();
+      console.log('is playing same song pause')
+      return;
+    }
+
+   await stopAll();
+
+  
+
+
+   document.getElementById(tracks.track_names[i]).play();
+   setIsPlaying({
+     bool: true,
+     tn: isPlaying.tn
+   })
+    
+  } 
+  
+  const stopAll = () => {
+    [0,1,2,3].forEach((x) => document.getElementById(tracks.track_names[x]).pause());
+    setIsPlaying({
+      bool: false,
+      tn: isPlaying.tn
+    })
+  }
   const [page, setPage] = useState(0)
 
   function prevPage() {
@@ -45,6 +78,7 @@ export default function Home() {
     track_artists: [],
     track_art: [],
     track_preview: [],
+    track_p_url: []
   });
   //
   const submit = (e) => {
@@ -71,31 +105,38 @@ export default function Home() {
         },
       }
     ).then((submissionRes) => {
+      console.log(submissionRes)
       setTracks({
-        track_names: {
-          one: submissionRes.data.tracks[0].name,
-          two: submissionRes.data.tracks[1].name,
-          three: submissionRes.data.tracks[2].name,
-          four: submissionRes.data.tracks[3].name,
-        },
-        track_artists: {
-          one: submissionRes.data.tracks[0].artists[0].name,
-          two: submissionRes.data.tracks[1].artists[0].name,
-          three: submissionRes.data.tracks[2].artists[0].name,
-          four: submissionRes.data.tracks[3].artists[0].name,
-        },
-        track_art: {
-          one: submissionRes.data.tracks[0].album.images[0].url,
-          two: submissionRes.data.tracks[1].album.images[0].url,
-          three: submissionRes.data.tracks[2].album.images[0].url,
-          four: submissionRes.data.tracks[3].album.images[0].url,
-        },
-        track_preview: {
-          one: submissionRes.data.tracks[0].external_urls.spotify,
-          two: submissionRes.data.tracks[1].external_urls.spotify,
-          three: submissionRes.data.tracks[2].external_urls.spotify,
-          four: submissionRes.data.tracks[3].external_urls.spotify,
-        },
+        track_names: [
+          submissionRes.data.tracks[0].name,
+          submissionRes.data.tracks[1].name,
+          submissionRes.data.tracks[2].name,
+          submissionRes.data.tracks[3].name,
+        ],
+        track_artists: [
+         submissionRes.data.tracks[0].artists[0].name,
+         submissionRes.data.tracks[1].artists[0].name,
+         submissionRes.data.tracks[2].artists[0].name,
+          submissionRes.data.tracks[3].artists[0].name,
+        ],
+        track_art: [
+         submissionRes.data.tracks[0].album.images[0].url,
+         submissionRes.data.tracks[1].album.images[0].url,
+          submissionRes.data.tracks[2].album.images[0].url,
+         submissionRes.data.tracks[3].album.images[0].url,
+        ],
+        track_preview: [
+         submissionRes.data.tracks[0].external_urls.spotify,
+         submissionRes.data.tracks[1].external_urls.spotify,
+         submissionRes.data.tracks[2].external_urls.spotify,
+        submissionRes.data.tracks[3].external_urls.spotify,
+        ],
+        track_p_url: [
+          submissionRes.data.tracks[0].preview_url,
+          submissionRes.data.tracks[1].preview_url,
+          submissionRes.data.tracks[2].preview_url,
+          submissionRes.data.tracks[3].preview_url,
+        ]
       });
     })
     .catch((err) => {
@@ -454,16 +495,18 @@ export default function Home() {
               alignContent: 'center',
               justifyContent: 'center'
             }}>
-          
-              <Box
+                {tracks.track_art.length > 1 && Array.apply(null, Array(4)).map((x,i) =>  <Box
+                key={i}
                 className={styles.images}
-                onClick={() => window.location.assign(tracks.track_preview.one)}
+                onClick={() => playTrack(i)}
+                  // window.location.assign(tracks.preview[i])}
                 width={["50vw","50vw","15vw"]}
-                sx={{margin: '0 auto'}}
+                sx={{margin: '0 auto', animationDelay: i + 's'}}
                 mb={10}
               >
                 {
-                  <Darkness>
+                  <Darkness i={i} tracks={tracks}>
+                    
                     <Box
                       sx={{
                         display: "flex",
@@ -473,15 +516,17 @@ export default function Home() {
                         cursor: "pointer",
                       }}
                     >
+                      <audio id={tracks.track_names[i]} src={tracks.track_p_url[i]} />
                       <Box
                         as="h2"
                         sx={{
                           borderBottom: "1px solid white",
                         }}
                       >
-                        {tracks.track_names.one}
+                        {tracks.track_names[i]}
                       </Box>
-                      <Box as="h4">by: {tracks.track_artists.one}</Box>
+                      <Box as="h4">by: {tracks.track_artists[i]}</Box>
+                      {!tracks.track_p_url[i] && <Box as="h6">No Preview</Box> }
                     </Box>
                   </Darkness>
                 }
@@ -489,127 +534,11 @@ export default function Home() {
                   as="img"
                   sx={{ borderRadius: 10 }}
                   width={1}
-                  src={tracks.track_art.one}
+                  src={tracks.track_art[i]}
                 />
-              </Box>
-
-              <Box
-                className={styles.images2}
-                onClick={() => window.location.assign(tracks.track_preview.two)}
-                width={["50vw","50vw","15vw"]}
-                sx={{margin: '0 auto'}}
-              >
-                {
-                  <Darkness>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        padding: 20,
-                        flexDirection: "column",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Box
-                        as="h2"
-                        sx={{
-                          borderBottom: "1px solid white",
-                        }}
-                      >
-                        {tracks.track_names.two}
-                      </Box>
-                      <Box as="h4">by: {tracks.track_artists.two}</Box>
-                    </Box>
-                  </Darkness>
-                }
-                <Box
-                  as="img"
-                  sx={{ borderRadius: 10 }}
-                  width={1}
-                  src={tracks.track_art.two}
-                />
-              </Box>
-            
-              <Box
-                className={styles.images3}
-                onClick={() =>
-                  window.location.assign(tracks.track_preview.three)
-                }
-                width={["50vw","50vw","15vw"]}
-                sx={{margin: '0 auto'}}
-                mb={10}
-          
-              >
-                {
-                  <Darkness>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        padding: 20,
-                        flexDirection: "column",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Box
-                        as="h2"
-                        sx={{
-                          borderBottom: "1px solid white",
-                        }}
-                      >
-                        {tracks.track_names.three}
-                      </Box>
-                      <Box as="h4">by: {tracks.track_artists.three}</Box>
-                    </Box>
-                  </Darkness>
-                }
-                <Box
-                  as="img"
-                  sx={{ borderRadius: 10 }}
-                  width={1}
-                  src={tracks.track_art.three}
-                />
-              </Box>
-
-              <Box
-                className={styles.images4}
-                onClick={() =>
-                  window.location.assign(tracks.track_preview.four)
-                }
-                width={["50vw","50vw","15vw"]}
-                sx={{margin: '0 auto'}}
-              >
-                {
-                  <Darkness>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        padding: 20,
-                        flexDirection: "column",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Box
-                        as="h2"
-                        sx={{
-                          borderBottom: "1px solid white",
-                        }}
-                      >
-                        {tracks.track_names.four}
-                      </Box>
-                      <Box as="h4">by: {tracks.track_artists.four}</Box>
-                    </Box>
-                  </Darkness>
-                }
-                <Box
-                  as="img"
-                  sx={{ borderRadius: 10 }}
-                  width={1}
-                  src={tracks.track_art.four}
-                />
-              </Box>
-            </Box>
+              </Box>)}
+             
+                </Box>
           </Box>
         </Box>
       }
