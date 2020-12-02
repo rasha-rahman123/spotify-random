@@ -48,7 +48,7 @@ export const Dropdown = (props) => {
          margin: '0 auto'
      }}>
         {props.options.filter((q,i) => props.page === 5 ?  i < 20 * (props.page + 1) + 6 && i > 20 * (props.page) : i < 20 * (props.page + 1) && i > (20 * (props.page)) - 1 ).map((x, i) => (
-          <Box onClick={() => dropDownChange(i + (20*props.page))} key={i} sx={{
+          <Box onClick={() => props.page === 5 ? dropDownChange(i + (20*props.page) + 1) : dropDownChange(i + (20*props.page))} key={i} sx={{
               background: 'darkpurple',
               color: props.genre.selectedGenre.length < 3 ? props.genre.selectedGenre.includes(x) ? 'pink' : 'limegreen' : props.genre.selectedGenre.includes(x) ? 'pink' : 'gray',
               fontWeight: 600,
