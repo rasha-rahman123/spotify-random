@@ -6,9 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Slider from "../components/Slider";
 import Darkness from "../components/Darkness";
-import "axios-progress-bar/dist/nprogress.css";
-import { loadProgressBar } from "axios-progress-bar";
-import tooltip from 'tooltip';
+
 
 
 export default function Home() {
@@ -23,10 +21,7 @@ export default function Home() {
     { val: 3, id: "C" },
   ];
 
-  useEffect(() => {
-    loadProgressBar();
-    tooltip();
-  }, []);
+
 
   const [token, setToken] = useState([]);
   const [genre, setGenre] = useState({
@@ -64,7 +59,7 @@ export default function Home() {
         },
       }
     ).then((submissionRes) => {
-      console.log(submissionRes);
+      
       setTracks({
         track_names: {
           one: submissionRes.data.tracks[0].name,
@@ -102,8 +97,9 @@ export default function Home() {
 
   const resizeCheck = (e) => {
     e = e || window.event;
-    console.log(e);
   };
+
+ 
 
   useEffect(() => {
     axios("https://accounts.spotify.com/api/token", {
@@ -154,19 +150,29 @@ export default function Home() {
   };
 
   function randomize() {
-    setAcousticSlider(Math.floor(Math.random() * 100));
+    function action() {
+      setAcousticSlider(Math.floor(Math.random() * 100));
     setDanceabilitySlider(Math.floor(Math.random() * 100));
     setEnergySlider(Math.floor(Math.random() * 100));
     setInstrumentalSlider(Math.floor(Math.random() * 100));
     setLivenessSlider(Math.floor(Math.random() * 100));
-    setLoudnessSlider(Math.floor(Math.random() * 100));
+    setLoudnessSlider(Math.floor(Math.random() * 60) - 60);
     setPopularitySlider(Math.floor(Math.random() * 5000));
     setTempoSlider(Math.floor(Math.random() * 20000));
     setValenceSlider(Math.floor(Math.random() * 100));
-    let k = new Array();
-    let j = [...genre.listOfGenresFromAPI];
+  
+   
+    
+    }
+
+    for(let a = 0; a < 10; a++) {
+      setTimeout(action, 100);
+    }
     let i = 0;
+    let k = new Array();
+      let j = [...genre.listOfGenresFromAPI];
     while (i < 3) {
+      
       var index = Math.floor(Math.random() * j.length - 1);
       k.push(j[index]);
       j.splice(index, 1);
@@ -183,7 +189,7 @@ export default function Home() {
   const [energySlider, setEnergySlider] = useState(50);
   const [instrumentalSlider, setInstrumentalSlider] = useState(35);
   const [livenessSlider, setLivenessSlider] = useState(0);
-  const [loudnessSlider, setLoudnessSlider] = useState(50);
+  const [loudnessSlider, setLoudnessSlider] = useState(0);
   const [popularitySlider, setPopularitySlider] = useState(5000);
   const [tempoSlider, setTempoSlider] = useState(10000);
   const [valenceSlider, setValenceSlider] = useState(50);
@@ -228,8 +234,8 @@ export default function Home() {
       sn: "loudnessSlider",
       name: loudnessSlider,
       f: setLoudnessSlider,
-      min: 0,
-      max: 1,
+      min: -60,
+      max: 0,
     },
     {
       sn: "tempoSlider",
@@ -266,12 +272,15 @@ export default function Home() {
         }}
       >
         <Box
-          backgroundColor="yellow"
+          backgroundColor="limegreen"
           sx={{
             fontWeight: 800,
             textAlign: "center",
             margin: "0 auto",
             py: 2,
+            hover: {
+              borderBottom: '2px solid limegreen'
+            }
           }}
           color="black"
           mb={10}
@@ -279,31 +288,42 @@ export default function Home() {
           spotify.random
         </Box>
         <Box
+          onClick={() => window.location.assign("https://rasha.world")}
+  
+          color="limegreen"
+          mt={10}
+          px={1}
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
+          made by rasha
+        </Box>
+        <Box
           onClick={() =>
             window.location.assign(
               "https://medium.com/creative-labs/spring-2020-projects-3401d04e238c"
             )
           }
-          backgroundColor="lightblue"
-          color="black"
+
+          color="yellow"
           px={1}
+          sx={{
+            cursor: 'pointer',
+            hover: {
+              borderBottom: '2px solid limegreen'
+            }
+            
+          }}
         >
           creative labs ucla
         </Box>
-        <Box
-          onClick={() => window.location.assign("https://rasha.world")}
-          backgroundColor="limegreen"
-          color="black"
-          mt={10}
-          px={1}
-        >
-          made by rasha
-        </Box>
+    
       </Box>
       <Box
         as="form"
         sx={{
-          width: "30%",
+         
           alignItems: "center",
           display: "flex",
           flexDirection: "column",
@@ -316,9 +336,13 @@ export default function Home() {
         <Dropdown
           options={genre.listOfGenresFromAPI}
           genre={genre}
+          setGenre={setGenre}
           changed={genreChanged}
           removed={genreRemoved}
         />
+         <Box sx={{fontSize: '3rem', color: 'limegreen', fontWeight: 800, mb: 30, width: '100%', textAlign: 'left'}}>
+          Attribute Selection
+        </Box>
         <Box
           sx={{
             display: "grid",
@@ -328,24 +352,18 @@ export default function Home() {
             rowGap: 15,
           }}
         >
+          
           {sliders &&
             sliders.map((x, i) => (
-              <Box key={i}>
-                <Box data-tooltip="hello world" as="label">
-                  {x.sn.substr(0, x.sn.length - 6).toUpperCase()}
-                </Box>
-                <Box as="pre">
-                  {x.name === tempoSlider
-                    ? x.name / 100 + " BPM"
-                    : x.name + "%"}
-                </Box>
                 <Slider
                   min={x.min}
                   max={x.max * 100}
                   value={x.name}
                   change={x.f}
+                  x={x}
+                  i={i}
+                  tempoSlider={tempoSlider}
                 />
-              </Box>
             ))}
         </Box>
 
@@ -364,6 +382,9 @@ export default function Home() {
               m: 4,
               fontWeight: 600,
               cursor: "pointer",
+              ":hover": {
+                  background: '#c1ffb1'
+              }
             }}
             onClick={() => randomize()}
           >
@@ -380,6 +401,9 @@ export default function Home() {
               m: 4,
               fontWeight: 600,
               cursor: "pointer",
+              ":hover": {
+                background: '#c1ffb1'
+              }
             }}
             type="submit"
           >
@@ -404,9 +428,10 @@ export default function Home() {
           }}
         >
           {tracks.track_art.length < 3 &&
-            "Hello! Welcome to Spotify Random. Fill out the stuff on the left and press submit."}
+            "Hello! Welcome to Spotify Random. Pick three genres of your choice and then set each attribute. You can learn more about what each attribute means if you highlight over it. Hit randomize and submit to try it out first!"}
           <Box width="100%" display={tracks.track_art.length < 3 ? 'none' : 'initial'}>
             <Box>
+          
               <Box
                 className={styles.images}
                 onClick={() => window.location.assign(tracks.track_preview.one)}

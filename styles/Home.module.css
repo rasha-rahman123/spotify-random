@@ -12,7 +12,7 @@
   animation-duration: 6s; 
   animation-iteration-count: infinite; 
   animation-timing-function: ease-in-out; 
-  border-radius: 10px;
+  
   
 }
 
@@ -23,3 +23,4 @@
   75% {transform: translate(0px,15px);}
   100% {transform: translate(0px,0px);}
 }   
+
