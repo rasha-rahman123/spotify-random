@@ -280,9 +280,10 @@ export default function Home() {
       }}
     >
       <Box
-        display="grid"
+        display={['flex','flex',"grid"]}
         sx={{
-          gridTemplateColumns: "33% 33% 33%",
+          gridTemplateColumns: ['100%','100%',"33% 33% 33%"],
+          flexDirection: 'column'
         }}
       >
         <Box
