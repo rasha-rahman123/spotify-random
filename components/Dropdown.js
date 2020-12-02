@@ -15,8 +15,9 @@ export const Dropdown = (props) => {
     <Box sx={{
         textAlign: 'center',
         my: 30, 
+        mx: 'auto',
     }}>
-    <Box sx={{textAlign: "left", fontSize: '3rem', color: 'limegreen', fontWeight: 800, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+    <Box sx={{textAlign: "center", fontSize: '3rem', color: 'limegreen', fontWeight: 800, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <Box>
             Genre Selection
           </Box> <Box sx={{
@@ -34,7 +35,8 @@ export const Dropdown = (props) => {
          width: '80vw',
          gridTemplateColumns: ['33% 33% 33%','25% 25% 25% 25%','20% 20% 20% 20% 20%'],
          columnGap:10,
-         rowGap: 15
+         rowGap: 15,
+         margin: '0 auto'
      }}>
         {props.options.filter((q,i) => props.page === 5 ?  i < 20 * (props.page + 1) + 6 && i > 20 * (props.page) : i < 20 * (props.page + 1) && i > (20 * (props.page)) - 1 ).map((x, i) => (
           <Box onClick={() => dropDownChange(i + (20*props.page))} key={i} sx={{
@@ -59,11 +61,13 @@ export const Dropdown = (props) => {
             display:'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            mt: 20
+            mt: 20,
+            margin: '20px auto',
+            width: '80vw'
           }}>
          <Box opacity={props.page === 0 ? 0 : 1} sx={{cursor:'pointer', userSelect: "none", msUserSelect: "none", MozUserSelect: "none", WebkitUserSelect: 'none'}} onClick={() => props.prevPage()}>
             {'<'}
-          </Box> {[1, 2,3,4,5,6].map((x,i) => <Box onClick={() => props.setPage(i)} width={16} height={16} mx={3} p={'15px'} sx={{
+          </Box> {[1, 2,3,4,5,6].map((x,i) => <Box key={i} onClick={() => props.setPage(i)} width={16} height={16} mx={3} p={'15px'} sx={{
             borderRadius: 8,
             cursor: 'pointer',
             backgroundColor: props.page === i ? 'lime' : 'green'

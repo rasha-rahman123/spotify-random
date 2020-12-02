@@ -359,7 +359,7 @@ export default function Home() {
           nextPage={nextPage}
           prevPage={prevPage}
         />
-         <Box sx={{fontSize: '3rem', color: 'limegreen', fontWeight: 800, mb: 30, width: '100%', textAlign: 'left'}}>
+         <Box sx={{fontSize: '3rem', color: 'limegreen', fontWeight: 800, mb: 15, width: '100%', textAlign: 'center'}}>
           Attribute Selection
         </Box>
         <Box
