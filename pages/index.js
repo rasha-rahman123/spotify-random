@@ -21,7 +21,19 @@ export default function Home() {
     { val: 3, id: "C" },
   ];
 
+  const [page, setPage] = useState(0)
 
+  function prevPage() {
+    if (page > 0) {
+      setPage((p) => p - 1);
+    }
+  }
+
+  function nextPage() {
+    if (page < 5) {
+      setPage((p) => p + 1);
+    }
+  }
 
   const [token, setToken] = useState([]);
   const [genre, setGenre] = useState({
@@ -59,7 +71,6 @@ export default function Home() {
         },
       }
     ).then((submissionRes) => {
-      
       setTracks({
         track_names: {
           one: submissionRes.data.tracks[0].name,
@@ -86,6 +97,9 @@ export default function Home() {
           four: submissionRes.data.tracks[3].external_urls.spotify,
         },
       });
+    })
+    .catch((err) => {
+      console.log(err)
     });
   };
 
@@ -149,7 +163,7 @@ export default function Home() {
     });
   };
 
-  function randomize() {
+  async function randomize() {
     function action() {
       setAcousticSlider(Math.floor(Math.random() * 100));
     setDanceabilitySlider(Math.floor(Math.random() * 100));
@@ -166,7 +180,7 @@ export default function Home() {
     }
 
     for(let a = 0; a < 10; a++) {
-      setTimeout(action, 100);
+      setTimeout(await action, 100);
     }
     let i = 0;
     let k = new Array();
@@ -339,6 +353,10 @@ export default function Home() {
           setGenre={setGenre}
           changed={genreChanged}
           removed={genreRemoved}
+          page={page}
+          setPage={setPage}
+          nextPage={nextPage}
+          prevPage={prevPage}
         />
          <Box sx={{fontSize: '3rem', color: 'limegreen', fontWeight: 800, mb: 30, width: '100%', textAlign: 'left'}}>
           Attribute Selection
@@ -413,7 +431,7 @@ export default function Home() {
       </Box>
       {
         <Box
-          backgroundColor="#3d3fe340"
+          backgroundColor="limegreen"
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -429,13 +447,18 @@ export default function Home() {
         >
           {tracks.track_art.length < 3 &&
             "Hello! Welcome to Spotify Random. Pick three genres of your choice and then set each attribute. You can learn more about what each attribute means if you highlight over it. Hit randomize and submit to try it out first!"}
-          <Box width="100%" display={tracks.track_art.length < 3 ? 'none' : 'initial'}>
-            <Box>
+          <Box width="80vw" display={tracks.track_art.length < 3 ? 'none' : 'initial'}>
+            <Box display={["grid"]} sx={{
+              gridTemplateColumns: ['100%','100%','25% 25% 25% 25%'],
+              alignContent: 'center',
+              justifyContent: 'center'
+            }}>
           
               <Box
                 className={styles.images}
                 onClick={() => window.location.assign(tracks.track_preview.one)}
-                width={"50vw"}
+                width={["50vw","50vw","15vw"]}
+                sx={{margin: '0 auto'}}
                 mb={10}
               >
                 {
@@ -472,8 +495,8 @@ export default function Home() {
               <Box
                 className={styles.images2}
                 onClick={() => window.location.assign(tracks.track_preview.two)}
-                width={"50vw"}
-                sx={{ transform: "translateX(-3vw) translateY(3vw)" }}
+                width={["50vw","50vw","15vw"]}
+                sx={{margin: '0 auto'}}
               >
                 {
                   <Darkness>
@@ -505,17 +528,16 @@ export default function Home() {
                   src={tracks.track_art.two}
                 />
               </Box>
-            </Box>
-
-            <Box width={"50vw"}>
+            
               <Box
                 className={styles.images3}
                 onClick={() =>
                   window.location.assign(tracks.track_preview.three)
                 }
-                width={"50vw"}
+                width={["50vw","50vw","15vw"]}
+                sx={{margin: '0 auto'}}
                 mb={10}
-                sx={{ transform: "translateX(-3vw) translateY(3vw)" }}
+          
               >
                 {
                   <Darkness>
@@ -553,7 +575,8 @@ export default function Home() {
                 onClick={() =>
                   window.location.assign(tracks.track_preview.four)
                 }
-                width={"50vw"}
+                width={["50vw","50vw","15vw"]}
+                sx={{margin: '0 auto'}}
               >
                 {
                   <Darkness>

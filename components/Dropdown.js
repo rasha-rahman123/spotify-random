@@ -36,14 +36,15 @@ export const Dropdown = (props) => {
          columnGap:10,
          rowGap: 15
      }}>
-        {props.options.map((x, i) => (
-          <Box onClick={() => dropDownChange(i)} key={i} sx={{
+        {props.options.filter((q,i) => props.page === 5 ?  i < 20 * (props.page + 1) + 6 && i > 20 * (props.page) : i < 20 * (props.page + 1) && i > (20 * (props.page)) - 1 ).map((x, i) => (
+          <Box onClick={() => dropDownChange(i + (20*props.page))} key={i} sx={{
               background: 'darkpurple',
               color: props.genre.selectedGenre.length < 3 ? props.genre.selectedGenre.includes(x) ? 'pink' : 'limegreen' : props.genre.selectedGenre.includes(x) ? 'pink' : 'gray',
               fontWeight: 600,
               opacity: props.genre.selectedGenre.includes(x) && props.genre.selectedGenre.length > 2 ? 1 : props.genre.selectedGenre.length > 2 ? 0.3 : 1,
               border: props.genre.selectedGenre.includes(x) ? '3px solid pink' : '3px solid green',
               transition: 'all 300ms ease-in-out',
+              userSelect: "none", msUserSelect: "none", MozUserSelect: "none", WebkitUserSelect: 'none',
               borderRadius: 4,
               ":hover": {
                   border: props.genre.selectedGenre.length < 3 ? props.genre.selectedGenre.includes(x) ? '3px solid salmon' : '3px solid limegreen' : props.genre.selectedGenre.includes(x) ? '3px solid salmon' : '3px solid green',
@@ -53,7 +54,23 @@ export const Dropdown = (props) => {
           }}>{x}</Box>
         ))}
       </Box>}
-          
+          <Box sx={{
+            flexDirection: 'row',
+            display:'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mt: 20
+          }}>
+         <Box opacity={props.page === 0 ? 0 : 1} sx={{cursor:'pointer', userSelect: "none", msUserSelect: "none", MozUserSelect: "none", WebkitUserSelect: 'none'}} onClick={() => props.prevPage()}>
+            {'<'}
+          </Box> {[1, 2,3,4,5,6].map((x,i) => <Box onClick={() => props.setPage(i)} width={16} height={16} mx={3} p={'15px'} sx={{
+            borderRadius: 8,
+            cursor: 'pointer',
+            backgroundColor: props.page === i ? 'lime' : 'green'
+          }}></Box>)}   <Box sx={{cursor:'pointer', userSelect: "none", msUserSelect: "none", MozUserSelect: "none", WebkitUserSelect: 'none'}}  opacity={props.page === 5 ? 0 : 1} onClick={() => props.nextPage()}>
+            {'>'}
+          </Box>
+          </Box>
     </Box>
   );
 };
