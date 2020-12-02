@@ -416,6 +416,7 @@ export default function Home() {
           {sliders &&
             sliders.map((x, i) => (
                 <Slider
+                key={i}
                   min={x.min}
                   max={x.max * 100}
                   value={x.name}
