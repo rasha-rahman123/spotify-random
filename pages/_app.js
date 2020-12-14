@@ -16,9 +16,9 @@ function MyApp({ Component, pageProps }) {
       <NextSeo
         title="Spotify Random - New Music Spotify Finder Tool"
         description="Want to find music that fits exactly what you want? This app uses Spotify API to recommend music based on what you want or if you want to try some new music, you can randomize it. Spotify Random - New Music Spotify Finder Tool"
-        canonical="https://www.canonical.ie/"
+        canonical="https://spotifymusicfinder.xyz"
         openGraph={{
-          url: "https://www.spotify-random.vercel.app",
+          url: "https://spotifymusicfinder.xyz",
           title: "Spotify Random - New Music Spotify Finder Tool",
           description:
             "Want to find music that fits exactly what you want? This app uses Spotify API to recommend music based on what you want or if you want to try some new music, you can randomize it. Spotify Random - New Music Spotify Finder Tool",
